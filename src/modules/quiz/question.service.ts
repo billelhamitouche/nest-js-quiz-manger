@@ -13,8 +13,14 @@ export class QuestionService{
 
     async createQuestion(question : CreateQuestionDto,quiz: Quiz): Promise<Question>{
   
-        return await this.questionRepository.save({
+        const newQuestion =  await this.questionRepository.save({
             question: question.question
         });
+
+        quiz.questions = [newQuestion, ...quiz.questions];
+
+        await quiz.save();
+
+        return newQuestion;
     }
 }
