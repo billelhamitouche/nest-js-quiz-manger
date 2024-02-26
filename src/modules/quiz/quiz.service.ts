@@ -14,7 +14,10 @@ export class QuizService{
     }
 
     async getQuizById(id: number): Promise<Quiz>{
-        return await this.quizRepository.findOneBy({ id });
+        return await this.quizRepository.findOne(
+            { where: { id }, relations: ['questions'] }
+            );
+           
     }
 
     async createNewQuiz (quiz: CreateQuizDto){
