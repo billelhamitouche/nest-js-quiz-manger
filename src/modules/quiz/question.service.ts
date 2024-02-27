@@ -11,16 +11,17 @@ export class QuestionService{
     private questionRepository: Repository<Question> 
     ){}
 
-    async createQuestion(question : CreateQuestionDto,quiz: Quiz): Promise<Question>{
+    async createQuestion(questionDTO : CreateQuestionDto,quiz: Quiz): Promise<Question>{
   
-        const newQuestion =  await this.questionRepository.save({
-            question: question.question
+        const newQuestion =  this.questionRepository.create({
+            question: questionDTO.question,
+            quiz: quiz,
         });
 
-        quiz.questions = [newQuestion, ...quiz.questions];
+        //quiz.questions = [newQuestion, ...quiz.questions];
 
-        await quiz.save();
+        //await quiz.save();
 
-        return newQuestion;
+        return this.questionRepository.save(newQuestion);
     }
 }
