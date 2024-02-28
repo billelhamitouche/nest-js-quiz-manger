@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import {Option} from "../entities/option.entity"; 
 import { CreateOptionDto } from "../dto/CreateOption.Dto";
+import { Question } from "../entities/question.entity";
 
  @Injectable() 
 export class OptionService{
@@ -11,7 +12,17 @@ export class OptionService{
     private optionRepository : Repository<Option>)
     {}
 
-    createOption(creataOptionDto :CreateOptionDto){
-        return [1,2,3];
+     async createOption(creataOptionDto :CreateOptionDto, question: Question) :Promise<Option>{
+         
+         const newOption =  this.optionRepository.create(
+             {
+                 text: creataOptionDto.text,
+                 isCorrect: creataOptionDto.IsCorrect,
+                 question: question,
+             });
+
+             return await this.optionRepository.save(newOption);
+
+
     }
 }

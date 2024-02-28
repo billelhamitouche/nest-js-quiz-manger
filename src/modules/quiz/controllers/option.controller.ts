@@ -4,7 +4,7 @@ import { QuestionService } from "../services/question.service";
 import { CreateOptionDto } from "../dto/CreateOption.Dto";
 import { Option } from "../entities/option.entity";
 
-@Controller('/question/option')
+@Controller('question/option')
 export class OptionController {
  constructor(
     private optionService: OptionService,
@@ -13,7 +13,14 @@ export class OptionController {
  
  @Post('')
  @UsePipes(ValidationPipe)
-  saveOptionToQuest(@Body() createoptionDto: CreateOptionDto){
-    return this.optionService.createOption;
+  async saveOptionToQuest(@Body() createoptionDto: CreateOptionDto){
+     
+   const question = await this.questionService.findQuestionById(createoptionDto.questionId);
+
+   const option = await this.optionService.createOption(createoptionDto,question);
+
+      return {question, option} ;
+
  }
+
 }

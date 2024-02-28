@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, Param, ParseIntPipe, Post, UsePipes, V
 import { QuizService } from '../services/quiz.service';
 import { CreateQuizDto } from '../dto/CreateQuiz.dto';
 import { Quiz } from '../entities/quiz.entity';
+import { promises } from 'dns';
 
 @Controller('quiz')
 export class QuizController {
@@ -9,8 +10,9 @@ export class QuizController {
         
     }
     @Get('/')
-    getAllQuiz(){
-    return this.quizService.getQuiz();
+    async getAllQuiz():Promise<Quiz[]>{
+    
+        return await  this.quizService.getAllQuiz();
     }
 
     @Get('/:id')
