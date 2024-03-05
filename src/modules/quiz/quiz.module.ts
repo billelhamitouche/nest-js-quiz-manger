@@ -11,6 +11,7 @@ import { OptionController } from './controllers/option.controller';
 import { OptionService } from './services/option.service';
 
 @Module({
+    
     imports:[TypeOrmModule.forFeature([Quiz, Question,Option])],
     controllers: [QuizController,QuestionController,OptionController],
     providers:[QuizService,QuestionService,OptionService]

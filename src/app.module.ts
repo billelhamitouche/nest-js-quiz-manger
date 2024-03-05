@@ -10,7 +10,11 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [QuizModule,TypeOrmModule.forRootAsync(typeOrmConfigAsync), UserModule],
+  imports: [
+  QuizModule,
+  TypeOrmModule.forRootAsync(typeOrmConfigAsync),
+  UserModule
+],
   controllers: [AppController],
   providers: [AppService],
 })
