@@ -1,12 +1,12 @@
 import { REGEX ,MESSAGES} from "app.utils";
 import { IsEmail, IsNotEmpty, Length, Matches } from "class-validator";
 
+
 export class UserRegisterDto{
 
     @IsNotEmpty()
     name: string;
 
-    @IsNotEmpty({ message: 'username is required' })
     @IsEmail()
     email:string;
 

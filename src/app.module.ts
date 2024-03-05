@@ -5,14 +5,15 @@ import { QuizModule } from './modules/quiz/quiz.module';
 import { QuizController } from './modules/quiz/controllers/quiz.controller';
 import { TypeORMError } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfigAsync } from './config/typeorm.config';
+import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
   QuizModule,
-  TypeOrmModule.forRootAsync(typeOrmConfigAsync),
+  ConfigModule.forRoot(),
+  TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
   UserModule
 ],
   controllers: [AppController],

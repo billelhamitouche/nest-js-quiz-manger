@@ -10,9 +10,9 @@ constructor(private userService :UserService){}
 
 @Post('/register')
 async UserRegistration(
-    @Body(SETTINGS.VALIDATION_PIPES) 
+    @Body() 
     userRegisterDto: UserRegisterDto
-    ):Promise<User>{
-        return this.userService.UserRegistration(userRegisterDto);
+    ){
+        return await this.userService.UserRegistration(userRegisterDto);
         }
 }
