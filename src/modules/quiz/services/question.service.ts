@@ -24,4 +24,11 @@ export class QuestionService{
 
         return this.questionRepository.save(newQuestion);
     }
+
+
+        async findQuestionById(id: number): Promise<Question>{   
+            
+            return await this.questionRepository.findOne({where:{id}, relations:['options'] });
+
+        }   
 }
