@@ -21,4 +21,9 @@ export class UserService {
     });
     return await this.userRepository.save(newUser);
 }
+
+    async getUserbyEmail(email: string): Promise<User | undefined> {
+        return await this.userRepository.findOne({where : { email }});
+    }
+
 }
