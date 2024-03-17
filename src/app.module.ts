@@ -13,7 +13,7 @@ import { dataSourceOption } from './config/typeorm-config';
 
 @Module({
   imports: [
-    QuizModule,
+    QuizModule,ConfigModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOption),
     UserModule,
     AuthModule,

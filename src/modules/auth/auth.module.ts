@@ -5,12 +5,12 @@ import { LocalStrategy } from './local.strategy';
 import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { jwtConfig } from 'src/config/jwt.config';
+import { config } from 'process';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports:[UserModule,JwtModule.register({
-    secret:'aassaddfggzzlllma33ZZZFF555666',
-    signOptions:{expiresIn: '1d'},
-  })],
+  imports:[ConfigModule,UserModule,JwtModule.registerAsync(jwtConfig)],
   providers: [AuthService,LocalStrategy,JwtStrategy],
   controllers: [AuthController]
 })
