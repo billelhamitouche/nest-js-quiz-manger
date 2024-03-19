@@ -3,8 +3,9 @@ import { QuizService } from '../services/quiz.service';
 import { CreateQuizDto } from '../dto/CreateQuiz.dto';
 import { Quiz } from '../entities/quiz.entity';
 import { promises } from 'dns';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
+import { ApiOkPaginatedResponse } from 'nestjs-paginate';
 
 @ApiTags('Quiz')
 @Controller('quiz')
@@ -25,13 +26,16 @@ export class QuizController {
       return await this.quizService.paginate(options);
     }
 
-  
+    
+    @ApiOkResponse({description:'Get a quiz by id'})
     @Get('/:id')
     async getQuizById(@Param('id',ParseIntPipe) id:number){
 
       return await this.quizService.getQuizById(id);
     }
 
+
+    @ApiCreatedResponse( {description:'the quiz that got created ', type:Quiz})
      @Post('create')
      @HttpCode(200)
      @UsePipes(ValidationPipe)

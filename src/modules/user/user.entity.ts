@@ -1,6 +1,7 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from "@nestjs/swagger";
+import { UserRoles } from "./enums/user.enum";
 @Entity('user')
 export class User extends BaseEntity{
   @ApiProperty({description:'Primary key User id',example:1})
@@ -25,6 +26,8 @@ export class User extends BaseEntity{
     
     password : string;
 
+
+
     @ApiProperty({description:'when user created'})
     @CreateDateColumn()
     
@@ -35,7 +38,13 @@ export class User extends BaseEntity{
 
     updatedAt :Date;
 
-    
+    @Column({
+      type:'enum',
+      enum:UserRoles,
+      default:UserRoles.MEMBER,
+    })
+    role: UserRoles;
+
     @BeforeInsert()
     async setPassword(password :string){
       const salt =  await bcrypt.genSalt();
