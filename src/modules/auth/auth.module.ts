@@ -8,10 +8,13 @@ import { JwtStrategy } from './jwt.strategy';
 import { jwtConfig } from 'src/config/jwt.config';
 import { config } from 'process';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports:[ConfigModule,UserModule,JwtModule.registerAsync(jwtConfig)],
-  providers: [AuthService,LocalStrategy,JwtStrategy],
+  imports: [ConfigModule, UserModule, JwtModule.registerAsync(jwtConfig),
+    PassportModule
+  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController]
 })
-export class AuthModule {}
+export class AuthModule { }

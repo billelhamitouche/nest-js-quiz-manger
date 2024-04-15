@@ -19,10 +19,7 @@ constructor(private userService :UserService){}
 @ApiBadRequestResponse({
     description:'user cannot register. Try again',
 })
-async UserRegistration(
-    @Body(SETTINGS.VALIDATION_PIPES) 
-    userRegisterDto: UserRegisterDto
-    ){
+async UserRegistration(@Body(SETTINGS.VALIDATION_PIPES) userRegisterDto: UserRegisterDto ){
         return await this.userService.UserRegistration(userRegisterDto);
         }
 }

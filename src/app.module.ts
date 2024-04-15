@@ -11,6 +11,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { config } from 'process';
 import { dataSourceOption } from './config/typeorm-config';
 import { ApiTokenCheckMiddleware } from './common/middleware/api-token-check.middleware';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -21,11 +23,16 @@ import { ApiTokenCheckMiddleware } from './common/middleware/api-token-check.mid
   ],
 
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard
+    // }
+  ],
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiTokenCheckMiddleware).forRoutes({path : '*',method: RequestMethod.ALL})
+    consumer.apply(ApiTokenCheckMiddleware).forRoutes({path : '*',method: RequestMethod.POST})
   
   } 
 
