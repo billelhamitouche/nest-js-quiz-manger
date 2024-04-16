@@ -16,8 +16,8 @@ export class QuizController {
     constructor(private quizService: QuizService){
         
     }
+    
     @ApiOkResponse({description: 'list of quuiz'})
-   
     @UsePipes(ValidationPipe)
     @UseGuards(JwtAuthGuard,AdminRoleGuard)
     @Get('/')
@@ -46,6 +46,8 @@ export class QuizController {
      @Post('create')
      @HttpCode(200)
      @UsePipes(ValidationPipe)
+     @UseGuards(JwtAuthGuard,AdminRoleGuard)
+
      async createQuiz(@Body() quizData : CreateQuizDto){
         return await this.quizService.createNewQuiz(quizData);
      }

@@ -2,7 +2,9 @@ import { Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common
 import { CreateQuestionDto } from "../dto/CreateQuestion.dto";
 import { QuestionService } from "../services/question.service";
 import { QuizService } from "../services/quiz.service";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Questions')
 @Controller('question')
 export class QuestionController{
 
