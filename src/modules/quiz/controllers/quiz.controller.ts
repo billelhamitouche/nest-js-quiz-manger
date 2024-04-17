@@ -9,6 +9,8 @@ import { ApiOkPaginatedResponse } from 'nestjs-paginate';
 import { AdminRoleGuard } from 'src/modules/auth/admin-role.guard';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { Request } from 'express';
+import { RoleGuard } from 'src/modules/auth/role.guard';
+import { Roles } from 'src/modules/auth/role.decorator';
 
 @ApiTags('Quiz')
 @Controller('quiz')
@@ -46,8 +48,9 @@ export class QuizController {
      @Post('create')
      @HttpCode(200)
      @UsePipes(ValidationPipe)
-     @UseGuards(JwtAuthGuard,AdminRoleGuard)
 
+     @UseGuards(JwtAuthGuard,RoleGuard)
+     @Roles('admin', 'member')
      async createQuiz(@Body() quizData : CreateQuizDto){
         return await this.quizService.createNewQuiz(quizData);
      }
