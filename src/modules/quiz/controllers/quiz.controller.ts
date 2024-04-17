@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Get, HttpCode, Param, ParseIntPipe, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, HttpCode, Param, ParseIntPipe, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { QuizService } from '../services/quiz.service';
 import { CreateQuizDto } from '../dto/CreateQuiz.dto';
 import { Quiz } from '../entities/quiz.entity';
@@ -11,6 +11,10 @@ import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { Request } from 'express';
 import { RoleGuard } from 'src/modules/auth/role.guard';
 import { Roles } from 'src/modules/auth/role.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { log } from 'console';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @ApiTags('Quiz')
 @Controller('quiz')
@@ -53,5 +57,30 @@ export class QuizController {
      @Roles('admin', 'member')
      async createQuiz(@Body() quizData : CreateQuizDto){
         return await this.quizService.createNewQuiz(quizData);
+     }
+
+
+     @Post('file')
+     @UseInterceptors(FileInterceptor('file',{
+
+      storage: diskStorage({
+        
+        destination: './files',
+
+        filename: (req, file, callback) =>{ 
+        
+            const uniqueSuffix =  Date.now() + '-'+ Math.round(Math.random()* 1e9);
+            const ext = extname(file.originalname);
+            const filename = `${uniqueSuffix}${ext}`
+            callback(null,filename);
+        }
+      })
+
+     }))
+     UploadFile(@UploadedFile() file: Express.Multer.File){
+      console.log('file',file);
+      
+      return 'file uploaded';
+
      }
 }
