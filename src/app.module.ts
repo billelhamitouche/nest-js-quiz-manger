@@ -13,11 +13,16 @@ import { dataSourceOption } from './config/typeorm-config';
 import { ApiTokenCheckMiddleware } from './common/middleware/api-token-check.middleware';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
-    QuizModule,ConfigModule.forRoot(),
+    QuizModule,
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOption),
+    EventEmitterModule.forRoot(),
+    MulterModule.register({dest : './uploads'}),
     UserModule,
     AuthModule,
   ],
@@ -32,7 +37,7 @@ import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiTokenCheckMiddleware).forRoutes({path : '*',method: RequestMethod.POST})
+    consumer.apply(ApiTokenCheckMiddleware).forRoutes({path : '*',method: RequestMethod.GET})
   
   } 
 
